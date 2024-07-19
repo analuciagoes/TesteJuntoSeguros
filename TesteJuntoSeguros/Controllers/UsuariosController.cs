@@ -6,18 +6,23 @@ using TesteJuntoSeguros.Models;
 
 namespace TesteJuntoSeguros.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/usuarios")]
     [ApiController]
     public class UsuariosController : ControllerBase
     {
-        //static List<Usuario> usuarios = new List<Usuario>();
-        // GET: api/<UsuariosController>
+        private string _connectionString = "";
+        public UsuariosController(IConfiguration configuration) 
+        {
+            _connectionString = configuration.GetConnectionString("UsuariosDatabase");
+        }
+
+        // GET: api/Usuarios
         [HttpGet]
         public IEnumerable<Usuario> ListarUsuarios()
         {
             var listaUsuarios = new List<Usuario>();
-            string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=TesteJuntoSeguros;Integrated Security=SSPI;AttachDBFilename=C:\Users\ana_g\TesteJuntoSeguros.mdf";
-            using (var connection = new SqlConnection(connectionString))
+
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 string sql = """
@@ -49,12 +54,11 @@ namespace TesteJuntoSeguros.Controllers
             return listaUsuarios;
         }
 
-        // GET api/<UsuariosController>/5
+        // GET api/Usuarios/5
         [HttpGet("{id}")]
         public Usuario BuscarUsuarioPorId(int id)
         {
-            string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=TesteJuntoSeguros;Integrated Security=SSPI;AttachDBFilename=C:\Users\ana_g\TesteJuntoSeguros.mdf";
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 string sql = """
@@ -87,12 +91,11 @@ namespace TesteJuntoSeguros.Controllers
             return null;
         }
 
-        // POST api/<UsuariosController>
+        // POST api/Usuarios
         [HttpPost]
         public void CriarUsuario([FromBody] Usuario usuario)
         {
-            string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=TesteJuntoSeguros;Integrated Security=SSPI;AttachDBFilename=C:\Users\ana_g\TesteJuntoSeguros.mdf";
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 var command = new SqlCommand("insert into Usuarios (Nome, Email, Senha) values (@Nome, @Email, @Senha)", connection);
@@ -103,12 +106,11 @@ namespace TesteJuntoSeguros.Controllers
             }
         }
 
-        // PUT api/<UsuariosController>/5
+        // PUT api/Usuarios/5
         [HttpPut("{id}")]
         public void EditarUsuario(int id, [FromBody] Usuario usuario)
         {
-            string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=TesteJuntoSeguros;Integrated Security=SSPI;AttachDBFilename=C:\Users\ana_g\TesteJuntoSeguros.mdf";
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 string sql = """
@@ -127,12 +129,11 @@ namespace TesteJuntoSeguros.Controllers
             }
         }
 
-        // DELETE api/<UsuariosController>/5
+        // DELETE api/Usuarios/5
         [HttpDelete("{id}")]
         public void ApagarUsuario(int id)
         {
-            string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=TesteJuntoSeguros;Integrated Security=SSPI;AttachDBFilename=C:\Users\ana_g\TesteJuntoSeguros.mdf";
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 var command = new SqlCommand("DELETE FROM [TesteJuntoSeguros].[dbo].[Usuarios] WHERE Id = @Id", connection);
