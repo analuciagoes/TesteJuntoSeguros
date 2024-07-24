@@ -5,3 +5,8 @@
 /TesteJuntoSeguros/obj
 /.vs
 /TesteJuntoSeguros/bin
+/TesteJuntoSeguros/Properties/serviceDependencies.json
+/TesteJuntoSeguros/Properties/serviceDependencies.local.json
+/TesteJuntoSeguros/Properties/serviceDependencies.local.json.user
+/TesteJuntoSeguros.Tests/bin/
+/TesteJuntoSeguros.Tests/obj
